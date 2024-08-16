@@ -1,0 +1,164 @@
+/////// Flat list with custom components ///////////
+
+
+import React from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ScrollView,
+} from 'react-native';
+import Contacts from './components/Contacts';
+
+const {width} = Dimensions.get('window');
+
+const contacts = [
+  {
+    uid: 1,
+    name: 'Hassan Mehdi',
+    image: require('./assets/icContact1.jpg'),
+    details: 'Just an Ordinary Teacher',
+  },
+  {
+    uid: 2,
+    name: 'Ali Mehdi',
+    image: require('./assets/icContact2.jpg'),
+    details: 'To Code and Teach',
+  },
+  {
+    uid: 3,
+    name: 'Hussain Mehdi',
+    image: require('./assets/icContact3.jpg'),
+    details: 'Just an Ordinary Teacher',
+  },
+];
+
+const App = () => {
+  return (
+    <View>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+
+      <FlatList data={contacts}
+        renderItem={({item}) => (
+          <Contacts
+            item={item}
+          />
+        )}
+        // keyExtractor={(item)=>{ return item.uid.toString()}}
+        keyExtractor={(item)=>(item.uid.toString())}
+      />
+
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+  
+});
+
+export default App;
+
+
+//////// Contacts.tsx ////////////
+
+import React, {Component} from 'react';
+import {Text, StyleSheet, View, Image, ScrollView} from 'react-native';
+
+export default function Contacts() {
+  const contacts = [
+    {
+      uid: 1,
+      name: 'Hassan Mehdi',
+      image: require('./assets/icContact1.jpg'),
+      details: 'Just an Ordinary Teacher',
+    },
+    {
+      uid: 2,
+      name: 'Ali Mehdi',
+      image: require('./assets/icContact2.jpg'),
+      details: 'To Code and Teach',
+    },
+    {
+      uid: 3,
+      name: 'Hussain Mehdi',
+      image: require('./assets/icContact3.jpg'),
+      details: 'Just an Ordinary Teacher',
+    },
+  ];
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.txtContacts}>Contacts</Text>
+      <ScrollView>
+        {contacts.map(item => (
+          <View key={item.uid} style={styles.containerContact}>
+            <Image source={item.image} style={styles.contactImg} />
+
+            <View style={styles.containerContactDetails}>
+            <Text style={styles.txtContactName}>{item.name}</Text>
+            <Text style={styles.txtContactDetails}>{item.details}</Text>
+
+            </View>
+          </View>
+        ))}
+      </ScrollView>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 10,
+  },
+
+  txtContacts: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'black',
+    marginBottom:5
+  },
+
+  containerContact: {
+    marginBottom:5,
+    flex:1,
+    flexDirection:'row',
+    alignItems:'center',
+    backgroundColor:'#d2dae2',
+    padding:10,
+    borderRadius:10
+
+  },
+  contactImg: {
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  containerContactDetails: {
+    marginStart: 14,
+  },
+
+  txtContactName: {
+    fontWeight: 'bold',
+    color: 'black',
+  },
+
+  txtContactDetails: {
+    marginTop: 3,
+    fontWeight: '500',
+    color: '#0a4c70',
+  },
+});
+

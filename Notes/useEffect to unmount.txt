@@ -1,0 +1,125 @@
+- Jb hm kisi component ko UI sy hide krty hy to wo sirf UI sy hide hota hy lekin background process khtm ni hoty
+usky to UI ko hide krny k baad agr hm kuch update krna chahty hy ya kuch processe ko rokna chahty hy ya phr koi
+api call krna chahty hy ya phr koi logic lgana chahty hy to hm useEffect ko use kr k aysa kry gy.
+- Jb hm UI ko hide krty hy to usy UnMount kehty hy.
+- Jb component mount hota hy to tb sirf useEffect call hota hy ya phr tb jb hm koi cheez update krty hy
+- Agr hm chahty hy k useEffect mount or update dono k case me call ho to 
+
+ useEffect(()=>
+  {
+    console.warn("User Component")
+  })
+
+............. Or agr hm chahty hy k useEffect sirf update k case me call ho to
+
+ useEffect(()=>
+  {
+    console.warn("User Component")
+  },[])
+
+............ Or agr hm chahty hy k useEffect sirf specific state k upr call ho to
+
+useEffect(()=>
+  {
+    console.warn("User Component")
+  },[count]) 
+
+(--------> const [count,setCount]=useState(0) )
+
+
+........... Or agr hm chahty hy k useEfect sirf unmount k case me call ho to return add kr dy
+
+ useEffect(()=>
+  {
+    return ()=>
+      {
+        console.warn("User Component")
+      }
+  })
+
+.................. Example of unmount case .........................
+
+import React, {useEffect, useState} from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ScrollView,
+  Button,
+  ToastAndroid,
+} from 'react-native';
+import Contacts from './components/Contacts';
+
+const {width} = Dimensions.get('window');
+
+const App = () => {
+  const [show, setShow] = useState(true);
+
+  return (
+    <View>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text> 
+      {
+        show? <User/>:null
+      }
+           
+      <Button  title='Toggle Component' onPress={()=>setShow(!show)}/>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  txt: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginVertical: 20,
+  },
+});
+
+const User=()=>
+{
+
+  let timer=setInterval(()=>(
+    console.warn("Timer called")
+  ),3000)
+
+  useEffect(()=>
+  {
+    return ()=>
+      {
+        clearInterval(timer)
+      }
+  })
+
+  return(
+    <View>
+      <Text style={{fontSize:20,color:'black',fontWeight:'600',textAlign:'center',marginVertical:20}}>User Component</Text>
+    </View>
+  )
+}
+
+export default App;
+
+
+
+
+
+
+
+
+
+
+

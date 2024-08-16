@@ -1,0 +1,150 @@
+///// Flat list with custom components (using classes components) ///////
+
+import React from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ScrollView,
+} from 'react-native';
+import Contacts from './components/Contacts';
+
+const {width} = Dimensions.get('window');
+
+const contacts = [
+  {
+    uid: 1,
+    name: 'Hassan Mehdi',
+    image: require('./assets/icContact1.jpg'),
+    details: 'Just an Ordinary Teacher',
+  },
+  {
+    uid: 2,
+    name: 'Ali Mehdi',
+    image: require('./assets/icContact2.jpg'),
+    details: 'To Code and Teach',
+  },
+  {
+    uid: 3,
+    name: 'Hussain Mehdi',
+    image: require('./assets/icContact3.jpg'),
+    details: 'Just an Ordinary Teacher',
+  },
+];
+
+const App = () => {
+  return (
+    <View>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+
+      <FlatList
+        data={contacts}
+        renderItem={({item}) => <Contacts item={item} />}
+        // keyExtractor={(item)=>{ return item.uid.toString()}}
+        keyExtractor={item => item.uid.toString()}
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+});
+
+export default App;
+
+
+///////////////////
+
+
+import React, {Component, ReactNode} from 'react';
+import {View, StyleSheet, Text, Image} from 'react-native';
+
+interface ContactsProps {
+  item: {
+    uid: number;
+    name: string;
+    image: any;
+    details: string;
+  };
+}
+
+class Contacts extends Component<ContactsProps> {
+  render(): ReactNode {
+    const {item: contacts} = this.props;
+    return (
+      <View style={styles.container}>
+        <Image source={contacts.image} style={styles.image} />
+
+        <View style={styles.detailsContainer}>
+          <Text style={styles.txtName}>{contacts.name}</Text>
+          <Text style={styles.txtDetails}>{contacts.details}</Text>
+        </View>
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 15,
+    backgroundColor: '#d2dae2',
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 5,
+  },
+
+  image: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: 'black',
+  },
+
+  detailsContainer: {
+    marginHorizontal: 15,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 20,
+
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+
+    elevation: 5,
+  },
+
+  txtName: {
+    color: 'black',
+    fontWeight: '600',
+    fontSize: 17,
+  },
+  txtDetails: {
+    fontSize: 15,
+    color: 'gray',
+    fontWeight: '500',
+    marginVertical: 5,
+  },
+});
+
+export default Contacts;

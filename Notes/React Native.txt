@@ -1,0 +1,16 @@
+// make a new project 
+npx react-native init <ProjectName>
+
+// local.properties
+
+sdk.dir=C\:\\Users\\Hassan Mehdi\\AppData\\Local\\Android\\Sdk
+
+// run the app
+npx react-native run-android
+
+// adb
+
+cd $env:LOCALAPPDATA\Android\sdk\platform-tools
+
+.\adb pair ip:port
+.\adb connect ip:port
