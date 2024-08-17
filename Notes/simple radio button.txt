@@ -1,0 +1,71 @@
+import React, { useState } from 'react';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+
+const App = () => {
+
+  const [selectedRadio,setSlectedRadio]=useState(0);
+
+  return (
+    <View style={styles.main}>
+      <TouchableOpacity onPress={()=>setSlectedRadio(1)}>
+        <View style={styles.radioWrapper}>
+          <View style={styles.radio}>
+            {
+              selectedRadio===1 ? <View style={styles.radioBg}/>:null
+            }
+          </View>
+          <Text style={styles.radioText}>Radio 1</Text>
+        </View>
+      </TouchableOpacity>
+
+      <TouchableOpacity onPress={()=>setSlectedRadio(2)}>
+        <View style={styles.radioWrapper}>
+          <View style={styles.radio}>
+            {
+              selectedRadio===2 ? <View style={styles.radioBg}/>:null
+            }
+          </View>
+          <Text style={styles.radioText}>Radio 1</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  radioWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+
+  radio: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderBlockColor: 'blue',
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  radioText: {
+    fontSize: 16,
+    marginHorizontal: 15,
+  },
+
+  radioBg: {
+    backgroundColor: 'lightblue',
+    height: 30,
+    width: 30,
+    borderRadius: 20,
+  },
+});
+
+export default App;

@@ -1,0 +1,84 @@
+import React, {useState} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+
+const App = () => {
+  const skills = [
+    {
+      id: 1,
+      name: 'Java',
+    },
+    {
+      id: 2,
+      name: 'Kotlin',
+    },
+    {
+      id: 3,
+      name: 'React Native',
+    },
+    {
+      id: 4,
+      name: 'Flutter',
+    },
+  ];
+
+  const [selectedRadio, setSlectedRadio] = useState(0);
+  return (
+    <View style={styles.main}>
+      <View>
+        {skills.map((item, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => setSlectedRadio(item.id)}>
+            <View style={styles.radioWrapper}>
+              <View style={styles.radio}>
+                {selectedRadio === item.id ? (
+                  <View style={styles.radioBg} />
+                ) : null}
+              </View>
+              <Text style={styles.radioText}>{item.name}</Text>
+            </View>
+          </TouchableOpacity>
+        ))}
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  radioWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+
+  radio: {
+    height: 40,
+    width: 40,
+    borderRadius: 20,
+    borderBlockColor: 'blue',
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+
+  radioText: {
+    fontSize: 16,
+    marginHorizontal: 15,
+  },
+
+  radioBg: {
+    backgroundColor: 'lightblue',
+    height: 30,
+    width: 30,
+    borderRadius: 20,
+  },
+});
+
+export default App;
+
