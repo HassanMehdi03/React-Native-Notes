@@ -1,0 +1,182 @@
+//////////////// Single Screen Style ////////////////////
+
+import React, {useState} from 'react';
+
+import {View, Text, Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen name="Login" component={Login} 
+        options={{
+          headerTitle:'Login Page',
+          headerStyle:{
+            backgroundColor:'gray'
+          },
+          headerTitleAlign:'center',
+          headerTitleStyle:{
+            fontSize:20
+          }
+        }}
+        
+        />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Home = () => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30}}>Home</Text>
+    </View>
+  );
+};
+
+const Login = (props: any) => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30, marginVertical: 40}}>Login Screen</Text>
+      <Button
+        title="Move to Login Page"
+        onPress={() => props.navigation.navigate('Home')}
+      />
+    </View>
+  );
+};
+
+export default App;
+
+
+
+
+/////////////// Same Style for all screens //////////////////////
+
+import React, {useState} from 'react';
+
+import {View, Text, Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions=
+      {{
+        headerTitle:'Login Page',
+          headerStyle:{
+            backgroundColor:'gray'
+          },
+          headerTitleAlign:'center',
+          headerTitleStyle:{
+            fontSize:20
+          }
+      }}>
+        <Stack.Screen name="Login" component={Login} 
+        />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Home = () => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30}}>Home</Text>
+    </View>
+  );
+};
+
+const Login = (props: any) => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30, marginVertical: 40}}>Login Screen</Text>
+      <Button
+        title="Move to Login Page"
+        onPress={() => props.navigation.navigate('Home')}
+      />
+    </View>
+  );
+};
+
+export default App;
+
+
+
+////////////// Same style for all screens but one screen style is different from all ////////////
+
+import React, {useState} from 'react';
+
+import {View, Text, Button} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const App = () => {
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions=
+      {{
+          headerStyle:{
+            backgroundColor:'gray'
+          },
+          headerTitleStyle:{
+            fontSize:20
+          }
+      }}>
+        <Stack.Screen name="Login" component={Login} 
+          options={{
+            headerTitle:'Login Page',
+            headerStyle:{
+              backgroundColor:'violet'
+            },
+            headerTintColor:'white',
+            headerTitleStyle:{
+              fontSize:20
+            }
+          }}
+        />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Home = () => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30}}>Home</Text>
+    </View>
+  );
+};
+
+const Login = (props: any) => {
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30, marginVertical: 40}}>Login Screen</Text>
+      <Button
+        title="Move to Login Page"
+        onPress={() => props.navigation.navigate('Home')}
+      />
+    </View>
+  );
+};
+
+export default App;
+
+
+
+

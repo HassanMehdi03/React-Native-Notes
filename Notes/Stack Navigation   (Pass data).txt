@@ -1,0 +1,96 @@
+////////// Stack navigation ( pass data between components) props /////////////////
+
+
+import React, {useState} from 'react';
+
+import {View, Text, Button, TextInput, StyleSheet, Dimensions} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+const {width}=Dimensions.get('window');
+
+const App = () => {
+
+  const btnPressed=()=>
+  {
+    console.warn('Button Pressed');
+  }
+
+  const [showModal, setShowModal] = useState(false);
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions=
+      {{
+          headerStyle:{
+            backgroundColor:'gray'
+          },
+          headerTitleStyle:{
+            fontSize:20
+          }
+      }}>
+        <Stack.Screen name="Login" component={Login} 
+          options={{
+            title:'Login',
+          
+            headerStyle:{
+              backgroundColor:'violet'
+            },
+            headerTintColor:'white',
+            headerTitleStyle:{
+              fontSize:20
+            }
+          }}
+        />
+        <Stack.Screen name="Home" component={Home} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
+
+const Home = (props: any) => {
+
+  const {text:name}=props.route.params;
+
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30}}>Home</Text>
+      <Text style={{fontSize: 30}}>{name}</Text>
+      {/* <Text style={{fontSize: 30}}>{age}</Text> */}
+    </View>
+  );
+};
+
+const Login = (props: any) => {
+
+const [text,setText]=useState('');
+
+  return (
+    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+      <Text style={{fontSize: 30, marginVertical: 40}}>Login Screen</Text>
+      <TextInput placeholder="Enter Name" style={styles.input}
+      placeholderTextColor={'black'}
+      onChangeText={(text)=>setText(text)}
+      />
+      <Button
+        title="Move to Login Page"
+        onPress={() => props.navigation.navigate('Home',{text})}
+      />
+    </View>
+  );
+
+};
+
+const styles=StyleSheet.create({
+  input:
+  {
+    borderColor:'gray',
+    borderWidth:2,
+    width:width,
+    borderRadius:20,
+    marginBottom:20,
+    padding:10,
+  }
+})
+
+export default App;
