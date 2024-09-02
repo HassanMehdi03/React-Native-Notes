@@ -1,0 +1,60 @@
+///////////// simple code to fetch data from api //////////////////////
+
+import React, {useEffect, useState} from 'react';
+
+import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import Contacts from './components/Contacts';
+
+const {width} = Dimensions.get('window');
+
+const App = () => {
+  const [data, setData] = useState<any>(undefined);
+  const getApiData = async () => {
+    const url = 'https://jsonplaceholder.typicode.com/posts/1';
+
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getApiData();
+  }, []);
+
+  return (
+    <View>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+      {data ? (
+        <View>
+          <Text style={styles.text_result}>{data.id}</Text>
+          <Text style={styles.text_result}>{data.userId}</Text>
+          <Text style={styles.text_result}>{data.title}</Text>
+          <Text style={styles.text_result}>{data.body}</Text>
+        </View>
+      ) : null}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  text_result: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+});
+
+export default App;
+
+ 
