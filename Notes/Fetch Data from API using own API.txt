@@ -1,0 +1,105 @@
+//////////////// fetching data from own api and showing with flatlist ///////////////////
+
+import React, {useEffect, useState} from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ScrollView,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
+
+const App = () => {
+  const [data, setData] = useState<any>([]);
+  const getApiData = async () => {
+    const url = 'http://192.168.1.5:3000/users';
+
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getApiData();
+  }, []);
+
+  return (
+    <View>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+      {data.length ? (
+        <FlatList
+        style={{marginBottom:120,}}
+          data={data}
+          renderItem={({item}) => (
+            <View
+              style={{borderBottomWidth: 1, borderColor: '#ccc', margin: 10}}>
+              <Text style={styles.text_result}>ID : {item.id}</Text>
+              <Text style={styles.text_result}>Name : {item.name}</Text>
+              <Text style={styles.text_result}>Age : {item.age}</Text>
+              <Text style={styles.text_result}>Email : {item.email}</Text>
+            </View>
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
+      ) : null}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  text_result: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '600',
+    marginTop: 20,
+  },
+});
+
+export default App;
+
+
+//////////////// db.json file /////////////////
+
+
+{
+  "users": [
+    {
+      "name": "Hassan Mehdi",
+      "age": "23",
+      "email": "mehdisajjad12@gmail.com",
+      "id": "2292"
+    },
+    {
+      "id": "a5d8",
+      "name": "Hussain Mehdi",
+      "age": "3",
+      "email": "test@gmail.com"
+    },
+    {
+      "id": "48cc",
+      "name": "Ali Mehdi",
+      "age": "25",
+      "email": "alimehdi@gmail.com"
+    },
+    {
+      "id": "c150",
+      "name": "Hussnain Mehdi",
+      "age": "21",
+      "email": "test@gmail.com"
+    }
+  ]
+}
+

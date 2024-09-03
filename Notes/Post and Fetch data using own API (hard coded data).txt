@@ -1,0 +1,115 @@
+//////////////// post hard coded data and fetch data from own api and showing with flatlist ///////////////////
+
+import React, {useEffect, useState} from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ScrollView,
+  ActivityIndicator,
+  Button,
+  Alert,
+  ToastAndroid,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
+
+const App = () => {
+  const [data, setData] = useState<any>([]);
+
+  const sendApiData = async () => {
+    const url = 'http://192.168.1.17:3000/users';
+    try {
+      let result = await fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          id: 2,
+          name: 'Hassan Mehdi',
+          age: '23',
+          email: 'mehdisajjad@gmail.com',
+        }),
+      });
+
+      if (result.ok) {
+        result = await result.json();
+        ToastAndroid.show('Data added successfully', ToastAndroid.SHORT);
+      } else {
+        ToastAndroid.show('Failed to add data', ToastAndroid.SHORT);
+      }
+    } catch (error) {
+      ToastAndroid.show('An error occurred', ToastAndroid.SHORT);
+    }
+  };
+
+  const getApiData = async () => {
+    const url = 'http://192.168.1.17:3000/users';
+
+    let result = await fetch(url);
+    result = await result.json();
+    setData(result);
+  };
+
+  useEffect(() => {
+    getApiData();
+  });
+
+  return (
+    <View>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+      {data.length ? (
+        <FlatList
+          style={{marginBottom: 120}}
+          data={data}
+          renderItem={({item}) => (
+            <View
+              style={{borderBottomWidth: 1, borderColor: '#ccc', margin: 10}}>
+              <Text style={styles.text_result}>ID : {item.id}</Text>
+              <Text style={styles.text_result}>Name : {item.name}</Text>
+              <Text style={styles.text_result}>Age : {item.age}</Text>
+              <Text style={styles.text_result}>Email : {item.email}</Text>
+            </View>
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
+      ) : (
+        <Text
+          style={{
+            fontSize: 20,
+            color: 'black',
+            textAlign: 'center',
+            fontWeight: 'bold',
+            opacity: 0.4,
+            marginTop: 20,
+          }}>
+          No records added yet
+        </Text>
+      )}
+
+      <Button title="Send Data" onPress={sendApiData} />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  text_result: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '600',
+    marginTop: 20,
+  },
+});
+
+export default App;
