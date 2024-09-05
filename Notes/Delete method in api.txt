@@ -1,0 +1,17 @@
+const deleteApiData = async (id: number) => {
+    const url = 'http://192.168.1.4:3000/users';
+
+    let result = await fetch(`${url}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+
+    if (result.ok) {
+      getApiData();
+      ToastAndroid.show('Data Deleted Successfully', ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show('Data Not Deleted', ToastAndroid.SHORT);
+    }
+  };

@@ -1,0 +1,278 @@
+/////// CRUD operations using own api and showing the result using flatlist /////////////////
+
+
+import React, {useEffect, useState} from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  FlatList,
+  ToastAndroid,
+  TextInput,
+  TouchableOpacity,
+  Button,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
+
+const App = () => {
+  const [id, setId] = useState('');
+  const [name, setName] = useState('');
+  const [age, setAge] = useState('');
+  const [email, setEmail] = useState('');
+  const [fetchedApiData, setFetchedApiData] = useState<any>([]);
+
+  const addData = () => {
+    if (id === '' || name === '' || age === '' || email === '') {
+      ToastAndroid.show('Please Enter All Fields', ToastAndroid.SHORT);
+    } else {
+      const obj = {
+        id: Number(id),
+        name: name,
+        age: age,
+        email: email,
+      };
+
+      setId('');
+      setName('');
+      setAge('');
+      setEmail('');
+      setApiData(obj);
+    }
+  };
+
+  const setApiData = async (data: object) => {
+    const url = 'http://192.168.1.4:3000/users';
+
+    try {
+      let result = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (result.ok) {
+        getApiData();
+        ToastAndroid.show('Data Added Successfully', ToastAndroid.SHORT);
+      } else {
+        ToastAndroid.show('Data Not Added', ToastAndroid.SHORT);
+      }
+    } catch (error: any) {
+      ToastAndroid.show(error.message, ToastAndroid.SHORT);
+    }
+  };
+
+  const getApiData = async () => {
+    const url = 'http://192.168.1.4:3000/users';
+
+    try {
+      let result = await fetch(url);
+
+      if (result.ok) {
+        result = await result.json();
+
+        setFetchedApiData(result);
+      } else {
+        ToastAndroid.show('Data not fetched', ToastAndroid.SHORT);
+      }
+    } catch (error: any) {
+      ToastAndroid.show(error.message, ToastAndroid.SHORT);
+    }
+  };
+
+  const deleteApiData = async (id: number) => {
+    const url = 'http://192.168.1.4:3000/users';
+
+    let result = await fetch(`${url}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-type': 'application/json',
+      },
+    });
+
+    if (result.ok) {
+      getApiData();
+      ToastAndroid.show('Data Deleted Successfully', ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show('Data Not Deleted', ToastAndroid.SHORT);
+    }
+  };
+
+  const updateApiData = async (id: number) => {
+    const url = 'http://192.168.1.4:3000/users';
+
+    let result = await fetch(`${url}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        id: 1,
+        name: 'Hassan Mehdi',
+        age: 23,
+        email: 'mehdisajjad12@gmail.com',
+      }),
+    });
+
+    if (result.ok) {
+      getApiData();
+      ToastAndroid.show('Data Updated Successfully', ToastAndroid.SHORT);
+    } else {
+      ToastAndroid.show('Data Not Updated', ToastAndroid.SHORT);
+    }
+
+  };
+
+  useEffect(() => {
+    getApiData();
+  }, []);
+
+  return (
+    <View style={{flex: 1}}>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+      <View style={styles.show_Data}>
+        {fetchedApiData.length ? (
+          <FlatList
+            data={fetchedApiData}
+            keyExtractor={item => item.id}
+            renderItem={({item}) => (
+              <View
+                style={{borderBottomWidth: 1, borderColor: '#ccc', margin: 10}}>
+                <Text style={styles.text_result}>ID : {item.id}</Text>
+                <Text style={styles.text_result}>Name : {item.name}</Text>
+                <Text style={styles.text_result}>Age : {item.age}</Text>
+                <Text style={styles.text_result}>Email : {item.email}</Text>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-evenly',
+                    marginTop: 10,
+                  }}>
+                  <Button
+                    title="Delete Data"
+                    onPress={() => deleteApiData(item.id)}
+                  />
+                  <Button
+                    title="Update Data"
+                    onPress={() => updateApiData(item.id)}
+                  />
+                </View>
+              </View>
+            )}
+          />
+        ) : (
+          <Text style={styles.no_data}>No Data Available</Text>
+        )}
+      </View>
+      <View style={styles.add_data}>
+        <Text style={styles.sub_heading}>Add Data</Text>
+        <TextInput
+          placeholderTextColor={'black'}
+          style={styles.input}
+          placeholder="Enter id"
+          value={id}
+          onChangeText={id => setId(id)}
+        />
+        <TextInput
+          placeholderTextColor={'black'}
+          style={styles.input}
+          placeholder="Enter Name"
+          value={name}
+          onChangeText={name => setName(name)}
+        />
+        <TextInput
+          placeholderTextColor={'black'}
+          style={styles.input}
+          placeholder="Enter Age"
+          value={age}
+          onChangeText={age => setAge(age)}
+        />
+        <TextInput
+          placeholderTextColor={'black'}
+          style={styles.input}
+          placeholder="Enter Email"
+          value={email}
+          onChangeText={email => setEmail(email)}
+        />
+        <TouchableOpacity activeOpacity={0.8} onPress={addData}>
+          <Text style={styles.button}>Add Data</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  text_result: {
+    fontSize: 20,
+    color: 'black',
+    fontWeight: '600',
+    marginTop: 20,
+  },
+
+  show_Data: {
+    flex: 1,
+    borderBottomColor: '#ccc',
+    borderBottomWidth: 1,
+  },
+
+  add_data: {
+    flex: 1,
+    marginTop: 5,
+    marginBottom: 10,
+  },
+
+  input: {
+    borderColor: 'black',
+    borderWidth: 1,
+    marginHorizontal: 10,
+    borderRadius: 10,
+    paddingHorizontal: 15,
+    color: 'black',
+    fontSize: 16,
+    marginTop: 5,
+  },
+
+  sub_heading: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: 'black',
+  },
+
+  button: {
+    backgroundColor: '#295F98',
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+    padding: 10,
+    marginHorizontal: 10,
+    marginVertical: 10,
+    borderRadius: 10,
+  },
+
+  no_data: {
+    fontSize: 20,
+    color: 'black',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    opacity: 0.4,
+    marginTop: 15,
+  },
+});
+
+export default App;

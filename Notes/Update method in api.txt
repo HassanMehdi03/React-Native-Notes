@@ -1,0 +1,15 @@
+const url = 'http://192.168.1.4:3000/users';
+
+    let result = await fetch(`${url}/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-type': 'application/json',
+      },
+
+      body: JSON.stringify({
+        id: 2,
+        name: 'Hassan Mehdi',
+        age: 23,
+        email: 'nQ5pR@example.com',
+      }),
+    });
