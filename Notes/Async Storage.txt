@@ -1,0 +1,67 @@
+///////////// Store data localy in phone with async storage (like shared preferances in java) ///////////////////////
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, {useEffect, useState} from 'react';
+
+import {
+  View,
+  Text,
+  StyleSheet,
+  Dimensions,
+  Button,
+  TouchableOpacity,
+} from 'react-native';
+
+const {width} = Dimensions.get('window');
+
+const setData = async () => 
+  {
+    await AsyncStorage.setItem("name","Hassan");
+  };
+
+  const getData= async()=>
+  {
+    const name=await AsyncStorage.getItem("name");
+    // const name=await AsyncStorage.clear(); it will remove everything
+
+    console.warn(name);
+    
+  }
+
+const App = () => {
+  return (
+    <View style={{flex: 1}}>
+      <Text style={styles.projectTitle}>React Native Practice Project</Text>
+
+      <View style={{flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        <TouchableOpacity onPress={setData}>
+          <Text style={styles.button}>Set Data</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={getData}>
+          <Text style={styles.button}>Get Data</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  projectTitle: {
+    fontSize: 25,
+    color: 'black',
+    fontWeight: '600',
+    textAlign: 'center',
+    marginTop: 20,
+    marginBottom: 20,
+  },
+
+  button: {
+    backgroundColor: 'black',
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    borderRadius: 10,
+    color: 'white',
+  },
+});
+
+export default App;
